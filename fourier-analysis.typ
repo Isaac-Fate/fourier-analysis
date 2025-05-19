@@ -373,7 +373,7 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
     integral_(-pi)^pi f(theta) T(theta) dif theta = 0
   $
   where $T(theta)$ is any trigonometric polynomial.
-]
+] <lem:1>
 
 #proof[
   Let $T(theta)$ be an arbitray trigonometric polynomial.
@@ -401,7 +401,40 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
   Then $f(theta_0) = 0$ if $f$ is continuous at $theta_0$.
 ]
 
+#proof[
+  Without loss of generality, we may assume that $theta_0 = 0$ and restrict ourselves to the interva $[-pi, pi]$. (Why? Justify this with @ex:1.)
+  We have
+  $
+    hat(f) (n) = integral_(-pi)^pi f(theta) e^(-i n theta) dif theta = 0 quad forall n in ZZ.
+  $
 
+  By @lem:1 we know that
+  $
+    integral_(-pi)^pi f(theta) T(theta) dif theta = 0
+  $ <eq:3>
+  for any trigonometric polynomial $T$.
+
+  We shall prove this theorem by contradiction.
+  Assume that $f$ is continuous at $theta_0 = 0$ but $f(0) != 0$.
+  Without loss of generality, we may assume that $f(0) > 0$.
+  Our goal is to construct a sequence of trigonometric polynomials ${T_k}_(k in NN^ast)$ such that
+  $
+    integral_(-pi)^pi f(theta) T_k (theta) dif theta > 0
+  $
+  for a large enough $k$, which would contradict @eq:3.
+
+
+  Since $f(0) > 0$ and $f$ is continuous at $0$,
+  $f$ must remain positive in some small neighborhood around $0$.
+  In fact, we can say something stronger.
+  There exists some neighborhood of $0$
+  where $f$ is not just positive but actually bounded below by a fixed positive constant, say $f(0) \/ 2$.
+  Mathematically, this means that there exists $delta > 0$ such that
+  $
+    f(theta) > f(0) / 2 quad "whenever" |theta| < delta.
+  $
+
+]
 
 
 = Index
