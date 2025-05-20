@@ -429,11 +429,96 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
   In fact, we can say something stronger.
   There exists some neighborhood of $0$
   where $f$ is not just positive but actually bounded below by a fixed positive constant, say $f(0) \/ 2$.
-  Mathematically, this means that there exists $delta > 0$ such that
+  Mathematically, this means that there exists a sufficiently small $delta > 0$ such that
+  $delta < pi \/ 2$ and
   $
     f(theta) > f(0) / 2 quad "whenever" |theta| < delta.
   $
+  #note-box[
+    The reason why we enforce $delta < pi \/ 2$ is related to the construction of $T_k (theta)$, which we will see shortly.
+  ]
 
+  We now have a positive lower bound for $f$ on $[-delta, delta]$, namely$f(0) \/ 2$.
+  On the _tails_ $[-pi, -delta]$ and $[delta, pi]$, we lack precise control over $f$---though no control is an exaggeration.
+  Since $f$ is integrable, it must be bounded.
+  Let's assume $abs(f) <= A$ on $[-pi, pi]$ for some $A > 0$.
+
+  For the construction of $T_k (theta)$, we want two things:
+  1. In the middle interval $[-delta, delta]$,
+  $f(theta) T_k (theta)$ remains postive, and its integral grows as $k$ increases.
+  2. On the tails $[-pi, -delta]$ and $[delta, pi]$:
+  $f(theta) T_k (theta)$ damps out, ensuring that even if even if
+  $
+    integral_(delta)^pi f(theta) T_k (theta) dif theta + integral_(-pi)^(-delta) f(theta) T_k (theta) dif theta < 0,
+  $
+  this negative contribution cannot outweigh the dominant positive term
+  $
+    integral_(-delta)^delta f(theta) T_k (theta) dif theta.
+  $
+
+  Here, we first reveal the simple construction.
+  Let
+  $
+    T(theta) = epsilon + cos(theta) "and" T_k (theta) = T^k (theta)
+  $
+  where $epsilon$ satisfies that
+  $
+    0< epsilon < (2(1 - cos delta) ) / 3.
+  $ <eq:4>
+  One can verify that
+  $
+    abs(T(theta)) < 1 - epsilon / 2 quad "whenever" delta <= abs(theta) <= pi
+  $ <eq:5>
+  #note-box[
+    Actually, the condition @eq:4 is specifically designed to ensure that @eq:5 holds.
+    This is achieved by solving for $epsilon$ through the inequality:
+    $
+      abs(epsilon + cos theta) < 1 - epsilon / 2 quad forall theta in [delta, pi].
+    $
+  ]
+
+  For a general sense of the behavior of $T_k (theta)$ looks refer to @fig:1 for an illustrative example.
+
+  #figure(caption: [$T_k (theta)$ defined on $[-pi, pi]$ with $epsilon = 0.1$.])[
+    #image("images/sequence-of-trigonometric-polynomials.png", width: 70%)
+  ] <fig:1>
+
+
+  Note that $T(theta)$ attains its maximum $epsilon + 1$ at $theta = 0$.
+  Since it is continuous, there exists $0 < eta < delta$ such that
+  $
+    T(theta) > 1 + epsilon / 2 quad "whenever" abs(theta) < eta.
+  $
+
+  Therefore, we have:
+  1. When $|theta| < eta$,
+  $
+    f(theta) T_k (theta) > f(0) / 2 (1 + epsilon / 2)^k.
+  $
+  The RHS tends to $oo$ as $k -> oo$.
+
+  2. When $eta <= |theta| < delta$,
+  $
+    f(theta) T_k (theta) > 0.
+  $
+
+  3. When $delta <= |theta| <= pi$,
+  $
+    abs(f(theta) T_k (theta)) < A (1 - epsilon / 2)^k. quad ("Recall that" abs(f) <= A.)
+  $
+  The RHS tends to $0$ as $k -> oo$.
+
+  Then, it is easy to find some large enough $k$ that
+  $
+    &integral_(-pi)^pi f(theta) T_k (theta) dif theta \
+    = &integral_(-eta)^eta f(theta) T_k (theta) dif theta \
+    &+ integral_(-delta)^(-eta) f(theta) T_k (theta) dif theta
+    + integral_(eta)^(delta) f(theta) T_k (theta) dif theta \
+    &+ integral_(-pi)^(-delta) f(theta) T_k (theta) dif theta
+    + integral_(delta)^(pi) f(theta) T_k (theta) dif theta \
+    >&0
+  $
+  This contradicts @eq:3, completing the proof.
 ]
 
 
