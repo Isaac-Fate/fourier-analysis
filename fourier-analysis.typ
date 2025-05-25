@@ -364,6 +364,15 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
 
 == Uniqueness of Fourier Series
 
+If we assume that the Fourier series of a function $f$ converges to $f$ under certain conditions, a natural question arises: is $f$ uniquely determined by its Fourier coefficients? In other words, if $hat(f) (n) = hat(g) (n)$ for all $n in ZZ$, does it follow that $f = g$ (under appropriate conditions)?
+
+To investigate this, consider the difference $h = f - g$. The problem then reduces to determining whether $h=0$ whenever its Fourier coefficients vanish, i.e., $hat(h) (n) = 0$ for all $n in ZZ$.
+
+To better exploit the condition
+$
+  hat(f) (n) = 1 / (2pi) integral_(-pi)^pi f(theta) e^(-i n theta) dif theta = 0 quad forall n in ZZ,
+$
+we first show the following lemma.
 
 #lemma[
   Let $f$ be an integrable function on the circle.
@@ -396,12 +405,26 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
 ]
 
 #theorem[
-  Suppose $f$ is an integrable fucntion on the circle
+  Suppose $f$ is an integrable complex-valued fucntion on the circle
   with $hat(f) (n) = 0$ for all $n in ZZ$.
   Then $f(theta_0) = 0$ if $f$ is continuous at $theta_0$.
-]
+] <thm:1>
 
 #proof[
+  It suffices to prove this theorem for real-value functions.
+  Having proved that, we may write
+  $
+    f(theta) = u(theta) + i v(theta)
+  $
+  where
+  $
+    u(theta) = (f(theta) + overline(f(theta))) / 2
+    quad "and" quad
+    v(theta) = (f(theta) - overline(f(theta))) / 2
+  $
+  are real-valued functions, which immediately implies that this theorem also holds for complex-valued functions.
+
+  Assume $f$ is real-valued.
   Without loss of generality, we may assume that $theta_0 = 0$ and restrict ourselves to the interva $[-pi, pi]$. (Why? Justify this with @ex:1.)
   We have
   $
@@ -446,7 +469,7 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
   For the construction of $T_k (theta)$, we want two things:
   1. In the middle interval $[-delta, delta]$,
   $f(theta) T_k (theta)$ remains postive, and its integral grows as $k$ increases.
-  2. On the tails $[-pi, -delta]$ and $[delta, pi]$:
+  1. On the tails $[-pi, -delta]$ and $[delta, pi]$:
   $f(theta) T_k (theta)$ damps out, ensuring that even if even if
   $
     integral_(delta)^pi f(theta) T_k (theta) dif theta + integral_(-pi)^(-delta) f(theta) T_k (theta) dif theta < 0,
@@ -459,7 +482,7 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
   Here, we first reveal the simple construction.
   Let
   $
-    T(theta) = epsilon + cos(theta) "and" T_k (theta) = T^k (theta)
+    T(theta) = epsilon + cos theta "and" T_k (theta) = T^k (theta)
   $
   where $epsilon$ satisfies that
   $
@@ -497,12 +520,12 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
   $
   The RHS tends to $oo$ as $k -> oo$.
 
-  2. When $eta <= |theta| < delta$,
+  1. When $eta <= |theta| < delta$,
   $
-    f(theta) T_k (theta) > 0.
+    f(theta) T_k (theta) >= 0.
   $
 
-  3. When $delta <= |theta| <= pi$,
+  1. When $delta <= |theta| <= pi$,
   $
     abs(f(theta) T_k (theta)) < A (1 - epsilon / 2)^k. quad ("Recall that" abs(f) <= A.)
   $
@@ -520,6 +543,86 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
   $
   This contradicts @eq:3, completing the proof.
 ]
+
+#note-box[
+  Constructing a sequence of functions like $T_k (theta)$ which peak at the origin, together with other nice properties is a common and useful technique of conducting proofs in the study of Fourier analysis.
+]
+
+#corollary[
+  If $f$ is continuous on a circle
+  and $hat(f) (n) = 0$ for all $n in ZZ$, then $f = 0$.
+]
+
+Therefore, we have a positive answer to the problem we raised in the beginning of this section.
+If $f$ and $g$ are continuous functions on the circle and their Fourier coefficients are equal, $hat(f) (n) = hat(g) (n)$ for all $n in ZZ$, then these two functions are identical, $f = g$.
+
+#corollary[
+  Suppose that $f$ is continuous on a circle and
+  that the Fourier series of $f$ is absolutely convergent,
+  $sum_(n=-oo)^oo abs(hat(f) (n)) < oo$.
+  Then, the Fourier series converges uniformly to $f$, i.e.,
+  the sequence of functions ${S_N (f) (theta)}$
+  converges uniformly to $f$ on $[-pi, pi]$.
+]
+
+#proof[
+  Consider function $g$ defined by
+  $
+    g(theta) = sum_(n=-oo)^oo hat(f) (n) e^(i n theta).
+  $ <eq:6>
+  Note that the series on the RHS of @eq:6 converges absolutely since
+  $
+    abs(hat(f) (n) e^(i n theta))
+    = abs(hat(f) (n)) abs(e^(i n theta))
+    = abs(hat(f) (n)) dot 1
+    = abs(hat(f) (n)).
+  $
+
+  Furthermore, we want to show that this series converges uniformly to $g$.
+  Let $epsilon > 0$ be arbitray.
+  Since $sum hat(f) (n)$ converges absolutely,
+  there exists $N in NN^*$ such that
+  $
+    sum_(n=N)^oo abs(hat(f) (n)) + sum_(-oo)^(-N) abs(hat(f) (n)) < epsilon
+  $
+  It then follows that for all $M >= N$, we have
+  $
+    abs(sum_(n=M)^oo hat(f) (n) e^(i n theta) + sum_(n=-oo)^(-M) hat(f) (n) e^(i n theta))
+    &<= sum_(n=M)^oo abs(hat(f) (n) e^(i n theta)) + sum_(-oo)^(-M) abs(hat(f) (n) e^(i n theta)) \
+    &<= sum_(n=N)^oo abs(hat(f) (n) e^(i n theta)) + sum_(-oo)^(-N) abs(hat(f) (n) e^(i n theta)) \
+    &<= sum_(n=N)^oo abs(hat(f) (n)) + sum_(-oo)^(-N) abs(hat(f) (n)) \
+    &< epsilon
+  $
+  This proves that $sum_(n=-oo)^oo hat(f) (n) e^(i n theta)$ converges uniformly to $g$ on $[-pi, pi]$.
+
+  Becauase each partial sum $S_N (g) (theta) = sum_(n=-N)^N hat(f) (n) e^(i n theta)$
+  is a continuous fucntion and $S_N (g) (theta)$ converges uniformly to $g$ on $[-pi, pi]$ (already proved),
+  function $g$ itself must also be continuous (uniform limit theorem).
+
+  Now, we compute $g$'s Fourier coefficients.
+  $
+    hat(g) (n)
+    &= 1 / (2pi) integral_(-pi)^pi g(theta) e^(-i n theta) dif theta \
+    &= 1 / (2pi) integral_(-pi)^pi sum_(k=-oo)^oo hat(f) (k) e^(i k theta) e^(-i n theta) dif theta \
+    &"We may interchange the order of integration and summation" \
+    &"since the series converges uniformly." \
+    &= 1 / (2pi) sum_(k=-oo)^oo integral_(-pi)^pi hat(f) (k) e^(i k theta) e^(-i n theta) dif theta \
+    &= 1 / (2pi) sum_(k=-oo)^oo hat(f) (k) integral_(-pi)^pi e^(i (k-n) theta) dif theta \
+  $ <eq:7>
+  The value of the intergal $integral_(-pi)^pi e^(i (k-n) theta) dif theta$ is
+  $
+    integral_(-pi)^pi e^(i (k-n) theta) dif theta
+    = cases(2pi "if" k = n, lr(1 / (i(k-n))e^(i (k-n) theta) |)_(-pi)^pi = 0 "if" k != n),
+  $ <eq:8>
+  In other words, it evaluates to $2pi$ only when $k=n$ and otherwise vanishes.
+
+  Combining @eq:7 with @eq:8, we obtain
+  $
+    hat(g) (n) = 1 / (2pi) hat(f) (n) dot 2pi = hat(f) (n).
+  $
+  Therefore, by @thm:1, $f = g$, which means ${S_N (f) (theta)}$ converges uniformly to $f$ on $[-pi, pi]$.
+]
+
 
 
 = Index
