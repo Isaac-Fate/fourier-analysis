@@ -563,7 +563,7 @@ If $f$ and $g$ are continuous functions on the circle and their Fourier coeffici
   Then, the Fourier series converges uniformly to $f$, i.e.,
   the sequence of functions ${S_N (f) (theta)}$
   converges uniformly to $f$ on $[-pi, pi]$.
-]
+] <cor:1>
 
 #proof[
   Consider function $g$ defined by
@@ -622,6 +622,79 @@ If $f$ and $g$ are continuous functions on the circle and their Fourier coeffici
   $
   Therefore, by @thm:1, $f = g$, which means ${S_N (f) (theta)}$ converges uniformly to $f$ on $[-pi, pi]$.
 ]
+
+The result of @cor:1 is elegant because it guarantees that the Fourier series of $f$ converges to $f$ uniformly in $theta$, provided the series itself is absolutely convergent.
+
+However, a natural follow-up question arises: How can we verify the absolute convergence of the Fourier series? Ideally, we would prefer a condition that is directly imposed on $f$ rather than its Fourier coefficients.
+
+This is precisely the focus of the following corollary.
+Short answer: A sufficient condition is $f$ being twice continuously differentiable.
+
+#corollary[
+  Suppose $f$ is a twice continuously differentiable function on the circle, i.e., $f in C^2$.
+  Then
+  $
+    hat(f) (n) = O(1 / abs(n)^2) quad "as" n -> oo.
+  $
+  In this case, the Fourier series converges _absolutely_ and uniformly to $f$.
+]
+
+#proof[
+  The key step in this proof is the application of integration by parts.
+  Since we are considering the regime where $abs(n)$ is large, we implicitly assume $n != 0$.
+  The first application of integration by parts yields
+  $
+    2pi hat(f) (n)
+    &= lr(f(theta) 1 / (-i n) e^(-i n theta) |)_(-pi)^pi
+    - integral_(-pi)^pi f'(theta) 1 / (-i n) e^(-i n theta) dif theta\
+    &= 1 / (i n) integral_(-pi)^pi f'(theta) e^(-i n theta) dif theta.
+  $ <eq:9>
+
+  Applying integration by parts again, we obtain
+  $
+    1 / (i n) integral_(-pi)^pi f'(theta) e^(-i n theta) dif theta
+    &= lr(f'(theta) 1 / (n^2) e^(-i n theta) |)_(-pi)^pi
+    -integral_(-pi)^pi f''(theta) 1 / (n^2) e^(-i n theta) dif theta\
+    &= -1 / (n^2) integral_(-pi)^pi f''(theta) e^(-i n theta) dif theta.
+  $
+
+  Therefore, we have
+  $
+    2pi hat(f) (n)
+    = -1 / (n^2) integral_(-pi)^pi f''(theta) e^(-i n theta) dif theta.
+  $
+  Take the modulus of both sides and we will have the following estimate:
+  $
+    2pi abs(hat(f) (n))
+    &= 1 / (abs(n)^2) abs(integral_(-pi)^pi f''(theta) e^(-i n theta) dif theta) \
+    &<= 1 / (abs(n)^2) integral_(-pi)^pi abs(f''(theta) e^(-i n theta)) dif theta \
+    &= 1 / (abs(n)^2) integral_(-pi)^pi abs(f''(theta)) dif theta \
+    &"Since" f'' "is continuous, so is" abs(f''), "and thus" \
+    &abs(f'') "attains its maximum" M "on" [-pi, pi].\
+    &<= 1 / (abs(n)^2) 2pi M \
+  $
+  It then follows that
+  $
+    abs(hat(f) (n)) <= M / (abs(n)^2).
+  $
+  In the big $O$ notation, this means exactly that $abs(hat(f) (n)) = O(1 / abs(n)^2)$.
+
+  Because the series $sum_(n=-oo)^oo 1 / (abs(n)^2)$ converges,
+  the series $sum_(n=-oo)^oo abs(hat(f) (n))$ also converges by the comparison test.
+  Then, by @cor:1, the Fourier series of $f$ converges uniformly to $f$ in $theta$.
+]
+
+#note-box[
+  @eq:9 gives us a by-product that
+  $
+    i n hat(f) (n) = hat(f') (n).
+  $
+  We have already shown this for $n != 0$.
+  The case where $n = 0$ can be proved easily by a simple calculation.
+]
+
+
+
 
 
 
