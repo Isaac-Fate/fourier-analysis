@@ -107,10 +107,13 @@
     // Add vertical space below level 1 headings
     v(32pt)
   } else if it.level == 2 {
+    // Add vertical space above level 2 headings
+    v(16pt)
+
     it
 
     // Add vertical space below level 2 headings
-    v(16pt)
+    v(8pt)
   } else {
     it
   }
@@ -160,7 +163,7 @@
 
 = Preface
 
-
+This is a notebook for Stein's Fourier Analysis: An Introduction @steinFourierAnalysisIntroduction2003.
 
 
 
@@ -695,11 +698,88 @@ Short answer: A sufficient condition is $f$ being twice continuously differentia
 
 
 
+== Convolutions
+
+#definition[
+  Given two $2pi$-periodic integrable functions $f$ and $g$ on $RR$,
+  their *convolution* #index[convolution] is defined by
+  $
+    (f * g) (x) = 1 / (2pi) integral_(-pi)^pi f(y) g(x - y) dif y, quad x in [-pi, pi].
+  $ <eq:10>
+]
+
+Note that @eq:10 is well-defined for each $x$ since the product of two integrable functions
+is also integrable.
+
+The following are some basic properties of convolutions.
+
+#proposition[
+  Let $f$, $g$ and $h$ be $2pi$-periodic integrable functions on $RR$.
+  Then we have:
+  1. $f * (g + h) = f * g + f * h$.
+  2. $(c f) * g = c (f * g) = f * (c g)$ for any $c in CC$.
+  3. $f * g = g * f$.
+  4. $(f * g) * h = f * (g * h)$.
+  5. $f * g$ is continuous.
+  6. $hat(f * g) (n) = hat(f) (n) hat(g) (n)$.
+]
+
+The first four statements outline key algebraic properties of convolutions: 1 and 2 express the linearity, which follows directly from the linearity of integration;
+3 states the commutativity,
+and 4 states the associativity.
+
+In the following, we only prove 3, 4, 5 and 6.
+
+#proof[
+
+  *Proof of 3:*
+
+
+  *Proof of 4:* We have
+  $
+    ((f * g) * h) (x)
+    &= 1 / (2pi) integral_(-pi)^pi (f * g)(y) dot h(x-y) dif y\
+    &= 1 / (2pi) integral_(-pi)^pi (1 / (2pi) integral_(-pi)^pi f(u) g (y - u) dif u) h(x-y) dif y\
+    &= 1 / (2pi)^2 integral_(-pi)^pi integral_(-pi)^pi f(u) g (y - u) h(x-y) dif u dif y.
+  $ <eq:11>
+  Because the integrand is continuous throughout the rectange $[-pi, pi] times [-pi, pi]$,
+  by a simple version of the first form of Fubini's theorem stated in @weirThomasCalculusEarly2014, we may switch the order of integration in @eq:11.
+  We have
+  $
+    && &1 / (2pi)^2 integral_(-pi)^pi integral_(-pi)^pi f(u) g (y - u) h(x-y) dif u dif y \
+    &&= &1 / (2pi)^2 integral_(-pi)^pi integral_(-pi)^pi f(u) g (y - u) h(x-y) dif y dif u \
+    &&= &1 / (2pi) integral_(-pi)^pi f(u) (1 / (2pi) integral_(-pi)^pi g (y - u) h(x-y) dif y) dif u.\
+    &&&"Substitute" y = v + u.\
+    &&= &1 / (2pi) integral_(-pi)^(pi) f(u) (1 / (2pi) integral_(-pi-u)^(pi-u) g (v) h(x-u-v) dif v) dif u\
+    &&= &1 / (2pi) integral_(-pi)^(pi) f(u) (1 / (2pi) integral_(-pi)^(pi) g (v) h(x-u-v) dif v) dif u\
+    &&= &1 / (2pi) integral_(-pi)^(pi) f(u) dot (g * h) (x-u) dif u\
+    &&= &(f * (g * h)) (x).
+  $
+  This completes the proof.
 
 
 
+  *Proof of 5:*
+
+
+  *Proof of 6:*
+]
+
+
+
+
+/*
+ * Index
+ */
 = Index
 
 #columns(2)[
   #make-index(title: none, outlined: true, use-page-counter: true)
 ]
+
+
+
+/*
+ * Bibliography
+ */
+#bibliography("fourier-analysis.bib")
