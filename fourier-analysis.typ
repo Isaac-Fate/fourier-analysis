@@ -64,6 +64,9 @@
     numbering("(1.1.1)", h1, h2, n)
     */
   },
+
+  // Don't need supplement since not every mathematical formula is an equation
+  supplement: none,
 )
 
 
@@ -91,12 +94,13 @@
     set text(size: 1.5em)
     let chapter_number = counter(heading).get().at(0)
 
-    // Start a new page if this is not the first level 1 heading
-    if page.numbering == "1" or chapter_number > 1 {
-      pagebreak()
-    }
+    // // Start a new page if this is not the first level 1 heading
+    // if page.numbering == "1" or chapter_number > 1 {
+    //   pagebreak()
+    // }
+    pagebreak()
 
-    if page.numbering == "1" {
+    if heading.numbering == "1.1" {
       set text(size: 1.6em)
       [$#math.bb(str(chapter_number))$]
       h(16pt)
@@ -120,7 +124,7 @@
 }
 
 // Set the supplement to Chapter for level 1 headings
-#show heading.where(level: 1): set heading(supplement: [Chapter])
+#show heading.where(level: 1, numbering: "1.1s"): set heading(supplement: [Chapter])
 
 // Set the outline
 #show outline.entry: it => {
@@ -128,16 +132,18 @@
     // Add vertical space above level 1 headings
     v(4pt)
 
-    if it.element.location().page-numbering() != "1" {
-      // set it.indented(gap: 0em)
-      link(
-        it.element.location(),
-        // Keep just the inner
-        it.inner(),
-      )
-    } else {
-      it
-    }
+    // if it.element.location().page-numbering() != "1" {
+    //   // set it.indented(gap: 0em)
+    //   link(
+    //     it.element.location(),
+    //     // Keep just the inner
+    //     it.inner(),
+    //   )
+    // } else {
+    //   it
+    // }
+
+    it
   } else {
     it
   }
@@ -148,15 +154,14 @@
 // Reset the heading counter
 #counter(heading).update(0)
 
-// Set heading
-#set heading(numbering: "1")
+
 
 
 // Apply Roman numerals for preliminary pages
 // before switching to standard numbering for the main content
 #set page(numbering: "i")
 
-
+#set heading(numbering: none)
 
 #import "@preview/fletcher:0.5.7" as fletcher: diagram, node, edge
 
@@ -172,7 +177,7 @@ This is a notebook for Stein's Fourier Analysis: An Introduction @steinFourierAn
 
 #outline(title: none)
 
-#counter(heading).update(0)
+
 
 // Set page numbering
 #set page(numbering: "1")
@@ -728,7 +733,19 @@ The first four statements outline key algebraic properties of convolutions: 1 an
 3 states the commutativity,
 and 4 states the associativity.
 
-In the following, we only prove 3, 4, 5 and 6.
+Statement 5 says that the convolution $f * g$ is continuous
+though $f$ and $g$ are merely integrable, which means that taking the convolution will produce a nicer and smoother function in some sense.
+
+Finally, statement 6 shows that the $n$-th Fourier coefficient of the convolution $f * g$ is the product of the $n$-th Fourier coefficients of $f$ and $g$. Formally, applying the _hat_ operator over the convolution will split it into a product.
+
+In the following, we only prove 3 and 4.
+1 and 2 are immedate consequence of the linearity of integration and the commutativity of convolutions.
+The proofs of statement 5 and 6 are more involved and will be given separately with a few preparations.
+
+In the following, we will only prove statements 3 and 4.
+Statements 1 and 2 follow immediately from the linearity of integration.
+While the proofs of statements 5 and 6 require additional technical preparations and will be addressed separately.
+
 
 #proof[
 
@@ -755,22 +772,32 @@ In the following, we only prove 3, 4, 5 and 6.
     &&= &1 / (2pi) integral_(-pi)^(pi) f(u) dot (g * h) (x-u) dif u\
     &&= &(f * (g * h)) (x).
   $
-  This completes the proof.
-
-
-
-  *Proof of 5:*
-
-
-  *Proof of 6:*
 ]
 
+
+
+
+
+#lemma[
+  Suppose that $f$ is an integrable function on the circle and is bounded by $M > 0$.
+  Then there exists a sequence of continuous functions ${f_n}_(n=1)^oo$ such that
+  $
+    sup_(x in [-pi, pi]) abs(f_n (x)) <= M quad forall n in NN^ast
+  $
+  and
+  $
+    integral_(-pi)^pi abs(f(x) - f_n (x)) dif x -> 0 quad "as" n -> oo.
+  $
+]
 
 
 
 /*
  * Index
  */
+
+#set heading(numbering: none)
+
 = Index
 
 #columns(2)[
