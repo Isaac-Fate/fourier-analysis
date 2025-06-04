@@ -774,9 +774,36 @@ While the proofs of statements 5 and 6 require additional technical preparations
   $
 ]
 
+We begin by proving statement 5 for the special case of continuous functions.
+Specifically, we will show that the convolution $f * g$ is continuous under the assumption that both $f$ and $g$ are continuous functions on the circle.
 
+#proof[
+  Since $f$ is integrable on the circle, it is bounded.
+  Suppose that $abs(f) <= M$ for some $M > 0$.
 
+  Let $epsilon > 0$ be given.
+  Because $g$ is continuous on $[-pi, pi]$, it is uniformly continuous there.
+  Thus we can find $delta > 0$ such that
+  $
+    abs(g(u) - g(v)) < epsilon / M quad "whenever" quad abs(u - v) < delta
+  $
+  for any $u, v in [-pi, pi]$.
 
+  Now take any $x_1, x_2 in [-pi, pi]$ with $abs(x_1 - x_2) < delta$.
+  We estimate:
+  $
+    abs((f * g)(x_1) - (f * g)(x_2))
+    &= 1 / (2pi) abs(integral_(-pi)^pi f(y) [g(x_1 - y) - g(x_2 - y)] dif y) \
+    &<= 1 / (2pi) integral_(-pi)^pi abs(f(y)) abs(g(x_1 - y) - g(x_2 - y)) dif y \
+    &<= M / (2pi) integral_(-pi)^pi abs(g(x_1 - y) - g(x_2 - y)) dif y \
+    &< M / (2pi) dot (epsilon / M) dot 2pi \
+    &= epsilon.
+  $
+
+  This shows that $f * g$ is uniformly continuous on $[-pi, pi]$.
+]
+
+To relax these continuity assumptions and consider the case where $f$ and $g$ are merely integrable, we require the following approximation lemma. This result allows us to approximate an integrable function with a sequence of continuous functions.
 
 #lemma[
   Suppose that $f$ is an integrable function on the circle and is bounded by $M > 0$.
@@ -788,8 +815,56 @@ While the proofs of statements 5 and 6 require additional technical preparations
   $
     integral_(-pi)^pi abs(f(x) - f_n (x)) dif x -> 0 quad "as" n -> oo.
   $
-]
+] <lem:2>
 
+The proof of this lemma is omitted here to maintain focus on our primary objective.
+
+In the following, we present the proof of statement 5 for the general case.
+
+
+#proof[
+  Suppose $abs(f) ≤ M_1$ and $abs(g) ≤ M_2$ for some constants $M_1, M_2 > 0$.
+  Let ${f_n}_(n=1)^∞$ and ${g_n}_(n=1)^∞$ be sequences of functions given by @lem:2.
+
+  Given $ε > 0$, there exist $N_1 in NN^*$ and $N_2 in NN^*$ such that
+  $
+    integral_(-pi)^pi abs(f(x) - f_n (x)) dif x &< epsilon / (2 M_2) quad "for" n >= N_1, quad "and"\
+    integral_(-pi)^pi abs(g(x) - g_n (x)) dif x &< epsilon / (2 M_1) quad "for" n >= N_2.
+  $
+
+  We analyze the difference:
+  $
+    abs(f * g - f_n * g_n)
+    &= abs(f * g - f * g_n + f * g_n - f_n * g_n). \
+    &"Apply the linearality, we have" \
+    &= abs(f * (g - g_n) + (f - f_n) * g_n) \
+    &<= abs(f * (g - g_n)) + abs((f - f_n) * g_n).
+  $ <eq:12>
+
+  We estimate each term separately. For $n ≥ N_2$:
+  $
+    abs(f * (g - g_n))
+    &= 1 / (2pi) abs(integral_(-pi)^pi f(y) [g(x-y) - g_n (x-y)] dif y) \
+    &<= 1 / (2pi) integral_(-pi)^pi abs(f(y)) abs(g(x-y) - g_n (x-y)) dif y \
+    &<= M_1 / (2pi) integral_(-pi)^pi abs(g(x-y) - g_n (x-y)) dif y \
+    &= M_1 / (2pi) integral_(-pi+x)^(pi+x) abs(g(u) - g_n (u)) dif u \
+    &= M_1 / (2pi) integral_(-pi)^(pi) abs(g(u) - g_n (u)) dif u \
+    &< M_1 / (2pi) dot epsilon / (2 M_1) dot 2pi \
+    &= epsilon / 2
+  $ <eq:13>
+
+  Applying a similar argument, one may show that
+  $
+    abs((f - f_n) * g_n) < epsilon / 2 quad "for" n >= N_1.
+  $ <eq:14>
+
+  Taking $N = max(N_1, N_2)$, we combine @eq:12, @eq:13, and @eq:14 to obtain:
+  $
+    abs(f * g - f_n * g_n) < epsilon quad "for" n >= N.
+  $
+  This establishes uniform convergence of ${f_n * g_n}_(n=1)^oo$ to $f*g$ on $[-π, π]$.
+  Since each $f_n*g_n$ is continuous (as proved in the special case), the limit $f*g$ is consequently continuous.
+]
 
 
 /*
