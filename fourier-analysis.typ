@@ -814,7 +814,7 @@ To relax these continuity assumptions and consider the case where $f$ and $g$ ar
   and
   $
     integral_(-pi)^pi abs(f(x) - f_n (x)) dif x -> 0 quad "as" n -> oo.
-  $
+  $ <eq:15>
 ] <lem:2>
 
 The proof of this lemma is omitted here to maintain focus on our primary objective.
@@ -867,6 +867,89 @@ In the following, we present the proof of statement 5 for the general case.
 ]
 
 
+Finally, we turn to the proof of statement 6.
+As before, we first consider the case where both $f$ and $g$ are continuous.
+The argument proceeds via interchanging integral signs and applying change of variables.
+
+#proof[
+  Assume $f$ and $g$ are both continuous on $[-pi, pi]$.
+  We have
+  $
+    hat(f * g)(n)
+    &= 1 / (2pi) integral_(-pi)^pi (1 / (2pi) integral_(-pi)^pi f(y) g(x-y) dif y) e^(-i n x) dif x \
+    &= 1 / (2pi)^2 integral_(-pi)^pi integral_(-pi)^pi f(y) g(x-y) e^(-i n x) dif y dif x.\
+    &"Since the integrand is continuous, we may interchange the order of integration:"\
+    &= 1 / (2pi)^2 integral_(-pi)^pi integral_(-pi)^pi f(y) g(x-y) e^(-i n x) dif x dif y\
+    &= 1 / (2pi)^2 integral_(-pi)^pi f(y) ( integral_(-pi)^pi g(x-y) e^(-i n x) dif x ) dif y.\
+    &"Substitute" x = u + y:\
+    &= 1 / (2pi)^2 integral_(-pi)^pi f(y) ( integral_(-pi-y)^(pi-y) g(u) e^(-i n u) e^(-i n y) dif u ) dif y.\
+    &"Because the integrand of the inner integral is" 2pi"-periodic, we have:"\
+    &= 1 / (2pi)^2 integral_(-pi)^pi f(y) ( integral_(-pi)^(pi) g(u) e^(-i n u) e^(-i n y) dif u ) dif y.\
+    &= 1 / (2pi)^2 integral_(-pi)^pi f(y) e^(-i n y) ( integral_(-pi)^(pi) g(u) e^(-i n u) dif u ) dif y\
+    &= (1 / (2pi) integral_(-pi)^pi f(y) e^(-i n y) dif y) dot (1 / (2pi) integral_(-pi)^(pi) g(u) e^(-i n u) dif u )\
+    &= hat(f)(n) hat(g)(n).
+  $
+]
+
+Now, we establish the general case of statement 6.
+
+#proof[
+  Recall in the general proof of statement 5, we have concluded that
+  $f_k * g_k$ converges uniformly to $f * g$ on $[-pi, pi]$.
+  (We use the $k$ as the index to avoid confusion with the symbol $n$ in statement 6.)
+
+  We will first show that $hat(f_k * g_k)(n) -> hat(f * g)(n)$ as $k -> oo$.
+  Let $epsilon > 0$ be arbitray.
+  Since $f_k * g_k$ converges uniformly to $f * g$, there exists $N in NN^*$ such that
+  $
+    abs((f_k * g_k)(x) - (f * g)(x)) < epsilon quad forall k >= N forall x in [-pi, pi].
+  $
+  For $k >= N$, we have
+  $
+    abs(hat(f_k * g_k)(n) - hat(f * g)(n))
+    &= abs(1 / (2pi) integral_(-pi)^pi [(f_k * g_k)(x) - (f * g)(x)] e^(-i n x) dif x) \
+    &<=1 / (2pi) integral_(-pi)^pi abs((f_k * g_k)(x) - (f * g)(x)) dif x \
+    &<=1 / (2pi) dot epsilon dot 2pi \
+    &= epsilon.
+  $
+  This shows that indeed $hat(f_k * g_k)(n) -> hat(f * g)(n)$ as $k -> oo$.
+
+
+  Recall that $f_k$ and $g_k$ are both continuous.
+  Therefore,
+  $
+    hat(f_k * g_k)(n) = hat(f_k)(n) hat(g_k)(n),
+  $
+  which we have already proved.
+
+  Next, we want to show that $hat(f_k)(n) -> hat(f)(n)$ and $hat(g_k)(n) -> hat(g)(n)$ as $k -> oo$.
+  Again, let $epsilon > 0$ be arbitray chosen.
+  Using @eq:15 from @lem:2,
+  there exists $N_1 in NN^*$ such that $abs(f_k(x) - f(x)) < epsilon$ whenever $k >= N_1$.
+  Assuming $k >= N_1$, we have
+  $
+    abs(hat(f)_k (n) - hat(f) (n))
+    &= abs(1 / (2pi) integral_(-pi)^pi [f_k (x) - f (x)] e^(-i n x) dif x) \
+    &<=1 / (2pi) integral_(-pi)^pi abs(f_k (x) - f (x)) dif x \
+    &<1 / (2pi) dot epsilon dot 2pi \
+    &= epsilon.
+  $
+  Therefore, indeed $hat(f_k)(n) -> hat(f)(n)$ as $k -> oo$.
+  Applying a similar argument, one can show that $hat(g_k)(n) -> hat(g)(n)$ as $k -> oo$.
+
+  In summary, now we have
+  $
+    lim_(k->oo) hat(f_k * g_k)(n) &= hat(f * g)(n), \
+    lim_(k->oo) hat(f_k)(n) hat(g_k)(n) &= hat(f)(n) hat(g)(n), "and" \
+    hat(f_k * g_k)(n) &= hat(f_k)(n) hat(g_k)(n).
+  $
+  Because of the uniqueness of limits, it follows that
+  $
+    hat(f * g)(n) = hat(f)(n) hat(g)(n).
+  $
+]
+
+
 /*
  * Index
  */
@@ -884,4 +967,5 @@ In the following, we present the proof of statement 5 for the general case.
 /*
  * Bibliography
  */
+
 #bibliography("fourier-analysis.bib")
