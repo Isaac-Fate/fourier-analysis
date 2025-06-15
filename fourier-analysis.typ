@@ -902,7 +902,7 @@ Now, we establish the general case of statement 6.
   Let $epsilon > 0$ be arbitray.
   Since $f_k * g_k$ converges uniformly to $f * g$, there exists $N in NN^*$ such that
   $
-    abs((f_k * g_k)(x) - (f * g)(x)) < epsilon quad forall k >= N forall x in [-pi, pi].
+    abs((f_k * g_k)(x) - (f * g)(x)) < epsilon quad forall k >= N med forall x in [-pi, pi].
   $
   For $k >= N$, we have
   $
@@ -948,6 +948,98 @@ Now, we establish the general case of statement 6.
     hat(f * g)(n) = hat(f)(n) hat(g)(n).
   $
 ]
+
+
+
+== Good Kernels
+
+#definition[
+  A family of functions ${K_n}_(n=1)^oo$ on the circle is said to be a family of *good kernels* #index[good kernels] if it satisfies the folloing properties:
+  + For all $n>= 1$, $ 1 / (2pi) integral_(-pi)^pi K_n (x) dif x = 1. $
+  + There exists $M > 0$ such that for all $n>= 1$, we have $ integral_(-pi)^pi abs(K_n (x)) dif x <= M. $
+  + For every $delta > 0$, $ integral_(delta<=abs(x)<=pi) abs(K_n (x)) dif x -> 0 quad "as" n -> oo. $
+]
+
+#theorem[
+  Let ${K_n}_(n=1)^oo$ be a family of good kernels,
+  and $f$ an integrable function on the circle.
+  Then
+  $
+    lim_(n->oo) (f * K_n)(x) = f(x)
+  $
+  whenever $f$ is continuous at $x$.
+
+  Moreover, if $f$ is continuous everywhere, then the sequence of functions ${f * K_n}_(n=1)^oo$
+  converges uniformly to $f$ on the circle.
+]
+
+#proof[
+  Suppose that $abs(f) <= M_1$ on the circle and that
+  $
+    integral_(-pi)^pi abs(K_n (x)) dif x <= M_2
+  $
+  for some $M_2 > 0$, which is the second property of good kernels.
+
+  Let $epsilon > 0$ be arbitray.
+  Let $x in [-pi, pi]$ be a point of continuity of $f$, we consider the difference:
+  $
+    abs((f*K_n)(x) - f(x))
+    &= 1 / (2pi) abs(integral_(-pi)^pi K_n (y) f(x-y) dif y - integral_(-pi)^pi f(x) dif y) \
+    &<= 1 / (2pi) integral_(-pi)^pi abs(K_n (y)) abs(f(x-y) - f(x)) dif y
+  $ <eq:16>
+
+  We would like to bound the RHS of the above inequality.
+  The strategy is as follows:
+  - When $|y|$ is small, we exploit the continuity of $f$ to ensure $|f(x-y) - f(x)|$ is sufficiently small, while the second property of good kernels controls $integral_(-pi)^pi |K_n (y)| dif y$.
+  - When $|y|$ is large, the third property of good kernels bounds the integral.
+
+  Since $f$ is continuous on the circle, it is continuous uniformly there.
+  There exists $0 < delta < pi$ such that
+  $
+    abs(f(x) - f(t)) < (epsilon pi) / M_2 quad "whenever" quad abs(x - t) < delta.
+  $ <eq:20>
+  Considering $abs(y) < delta$, we have
+  $
+    1 / (2pi) integral_(-delta)^delta abs(K_n (y)) abs(f(x-y) - f(x)) dif y
+    &< 1 / (2pi) dot (epsilon pi) / M_2 integral_(-delta)^delta abs(K_n (y)) dif y \
+    &< 1 / (2pi) dot (epsilon pi) / M_2 dot M_2 \
+    &= epsilon / 2.
+  $ <eq:17>
+
+  On the other hand, for $delta <= abs(y) <= pi$, applying $abs(f(x-y) - f(x)) <= 2M_1$, we have
+  $
+    1 / (2pi) integral_(delta<=abs(y)<=pi) abs(K_n (y)) abs(f(x-y) - f(x)) dif y
+    &<= 1 / (2pi) dot 2 M_1 integral_(delta<=abs(y)<=pi) abs(K_n (y)) dif y.
+  $ <eq:18>
+  Becuase $integral_(delta<=abs(y)<=pi) abs(K_n (y)) dif y -> 0$ as $n -> oo$,
+  there exists $N in NN^*$ such that
+  $
+    integral_(delta<=abs(y)<=pi) abs(K_n (y)) dif y < (epsilon pi) / (2M_1) quad forall n >= N.
+  $
+  Therefore, the RHS in @eq:18 can be further estimated as follows:
+  $
+    1 / (2pi) dot 2 M_1 integral_(delta<=abs(y)<=pi) abs(K_n (y)) dif y
+    < 1 / (2pi) dot 2 M_1 dot (epsilon pi) / (2M_1)
+    = epsilon / 2.
+  $ <eq:19>
+
+  Combining @eq:16, @eq:17, @eq:18 and @eq:19, we obtain that
+  $
+    abs((f*K_n)(x) - f(x)) < epsilon quad forall n >= N.
+  $
+  This shows that $(f*K_n)(x) -> f(x)$ as $n -> oo$.
+
+
+  If $f$ is continuous on the circle, then it is uniformly continuous there.
+  In this case, the choice of $delta$ in @eq:20 is independent of the choice of $x$.
+  Folling the same argument as above, one can obtain that
+  $
+    abs((f*K_n)(x) - f(x)) < epsilon quad forall n >= N med forall x in [-pi, pi],
+  $
+  which means that ${f*K_n}$ converges uniformly to $f$ on the circle.
+]
+
+
 
 
 /*
