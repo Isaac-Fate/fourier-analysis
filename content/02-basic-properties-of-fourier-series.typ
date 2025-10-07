@@ -883,6 +883,7 @@ As you can see, $D_N (x)$ takes on positive and negative values and oscillates r
 
 == Cesàro and Abel Summability: Application to Fourier Series
 
+=== Cesàro Means and Summation
 
 Consider summing up a collection of complex numbers.
 If there are only finitely many numbers $c_0, c_1, ..., c_n$, the definition of sum is straightforward.
@@ -910,7 +911,7 @@ clearly does not have a well-defined sum since its sequence of partial sums osci
 However, one may argue that the series has a value of $1\/2$, as it averages its two possible states ($0$ and $1$). This intuitive argument can be made rigorous through alternative summation definitions. Specifically, the Cesàro sum of this series is $1\/2$, a concept we will now examine.
 
 #definition[
-  Let ${s_n}_{n=0}^{oo}$ be the sequence of partial sums of the series $sum_(k=0)^oo c_k$.
+  Let ${s_n}_(n_0)^oo$ be the sequence of partial sums of the series $sum_(k=0)^oo c_k$.
   The $N$-th *Cesàro mean* #index[Cesàro mean] $sigma_N$ of ${s_n}$ is defined by
   $
     sigma_N = 1 / N sum_(n=0)^(N-1) s_n.
@@ -921,6 +922,10 @@ However, one may argue that the series has a value of $1\/2$, as it averages its
   If the sequence ${sigma_N}_(N=1)^oo$ converges to $sigma$ as $N -> oo$,
   then the series $sum_(k=0)^oo c_k$ is said to be *Cesàro summable* #index[Cesàro summable] to $sigma$.
 ]
+
+$sigma$ is called the Cesàro _sum_ of the series. A natural question is whether this definition is consistent with the standard sum of a convergent series.
+That is, if $sum_(k=0)^oo c_k$ converges to $s$ in the usual sense, is it also Cesàro summable to $s$?
+The answer is yes.
 
 #proposition[
   If series $sum_(k=0)^oo c_k$ converges to $s$,
@@ -971,5 +976,68 @@ However, one may argue that the series has a value of $1\/2$, as it averages its
   $
     lim_(N->oo) abs(sigma_N - s) = limsup_(N->oo) abs(sigma_N - s) = 0.
   $
+  #note-box[
+    Yeah, using the limit superior technique elimiates a lot of $epsilon$-engineerings.
+  ]
   This precisely means that the sequence ${sigma_N}_(N=1)^oo$ converges to $s$ as $N -> oo$.
 ]
+
+#exercise[
+  Show that the series
+  $
+    sum_(k=0)^oo (-1)^k
+  $
+  is Cesàro summable to $1\/2$.
+]
+
+=== Fejér's Theorem
+
+$
+  F_N (x)
+  = 1 / N sum_(n=0)^(N-1) D_n (x)
+  = 1 / N sum_(n=0)^(N-1) (sin ((n+ 1\/2) x)) / (sin(x \/ 2)).
+$ <eq:21>
+
+The closed-form expression for the N-th Fejér kernel is
+$
+  F_N (x)
+  = 1 / N (sin^2 (N x \/ 2)) / (sin^2 (x \/ 2)).
+$ <eq:22>
+
+The key step is to evaluate the sum of sines
+$
+    & sum_(n=0)^(N-1) sin ((n+ 1\/2) x) \
+  = & sin (x\/2) + sin (x\/2 + x) + sin (x\/2 + 2x) + dots.c + sin (x\/2 + (N-1) x).
+$
+
+To do so, we need to use the following trigonometric identities:
+1. Product-to-sum indendity:
+  $
+    sin theta sin phi = 1/2 [cos (theta - phi) - cos (theta + phi)].
+  $
+1. Power-reduction formula:
+  $
+    sin^2 theta = 1/2 [1 - cos (2theta)].
+  $
+
+The trick is to multiply the original sum of sines by the term $sin x \/ 2$.
+For a general term $sin (x\/2 + n x)$, we have
+$
+  2 sin (x\/2 + n x) sin (x \/ 2)
+  = cos (n x) - cos ((n+1) x) .
+$
+Taking the sum over $n$, we obtain
+$
+    & 2 sum_(k=0)^(N-1) sin (x\/2 + n x) sin (x\/2) \
+  = & cos 0 - cos x + cos (x) - cos (2x) + dots.c + cos ((N-1) x) - cos (N x) \
+  = & 1 - cos (N x) \
+    & "Apply the power-reduction formula" \
+  = & 2 sin^2 (N x \/ 2) .
+$
+Therefore,
+$
+  sum_(k=0)^(N-1) sin (x\/2 + n x) = (sin^2 (N x \/ 2)) / (sin (x\/2)).
+$ <eq:23>
+
+Substituting @eq:23 into @eq:21, we obtain @eq:22.
+
