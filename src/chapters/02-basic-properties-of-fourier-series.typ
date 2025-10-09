@@ -321,7 +321,7 @@ we first show the following lemma.
   For a general sense of the behavior of $T_k (theta)$ looks refer to @fig:1 for an illustrative example.
 
   #figure(caption: [$T_k (theta)$ defined on $[-pi, pi]$ with $epsilon = 0.1$.])[
-    #image("figures/sequence-of-trigonometric-polynomials.png", width: 70%)
+    #image("/assets/figures/sequence-of-trigonometric-polynomials.png", width: 70%)
   ] <fig:1>
 
 
@@ -767,7 +767,7 @@ Property 1 states that the average value of $K_n$ over the circle is 1. Property
 @fig:2 illustrates a typical characteristic of a family of good kernels.
 
 #figure(caption: [A family of good kernels.])[
-  #image("figures/family-of-good-kernels.png", width: 70%)
+  #image("/assets/figures/family-of-good-kernels.png", width: 70%)
 ] <fig:2>
 
 #theorem[
@@ -876,7 +876,7 @@ The fact that the integral of $|D_N (x)|$ is unbounded while $D_N$ still assigns
 As you can see, $D_N (x)$ takes on positive and negative values and oscillates rapidly as $N$ increases.
 
 #figure(caption: [Dirichlet kernel $D_N (x)$.])[
-  #image("figures/dirichlet-kernels.png")
+  #image("/assets/figures/dirichlet-kernels.png")
 ] <fig:3>
 
 
@@ -1015,7 +1015,7 @@ To do so, we need to use the following trigonometric identities:
   $
     sin theta sin phi = 1/2 [cos (theta - phi) - cos (theta + phi)].
   $
-1. Power-reduction formula:
+2. Power-reduction formula:
   $
     sin^2 theta = 1/2 [1 - cos (2theta)].
   $
@@ -1028,7 +1028,7 @@ $
 $
 Taking the sum over $n$, we obtain
 $
-    & 2 sum_(k=0)^(N-1) sin (x\/2 + n x) sin (x\/2) \
+    & 2 sum_(n=0)^(N-1) sin (x\/2 + n x) sin (x\/2) \
   = & cos 0 - cos x + cos (x) - cos (2x) + dots.c + cos ((N-1) x) - cos (N x) \
   = & 1 - cos (N x) \
     & "Apply the power-reduction formula" \
@@ -1036,8 +1036,10 @@ $
 $
 Therefore,
 $
-  sum_(k=0)^(N-1) sin (x\/2 + n x) = (sin^2 (N x \/ 2)) / (sin (x\/2)).
+  sum_(n=0)^(N-1) sin (x\/2 + n x) = (sin^2 (N x \/ 2)) / (sin (x\/2)).
 $ <eq:23>
+
+This indeed brought back many memories from high school.
 
 Substituting @eq:23 into @eq:21, we obtain @eq:22.
 

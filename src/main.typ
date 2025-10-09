@@ -1,9 +1,28 @@
 #import "mybook.typ": *
 #show: mybook.with()
 
+#import "@preview/fauxreilly:0.1.1": orly
+
+#orly(
+  color: rgb("#85144b"),
+  title: "Fourier Analysis",
+  top-text: "",
+  subtitle: "",
+  pic: image("/assets/images/cover.png", width: 100%, height: 40em, fit: "cover"),
+  signature: "Isaac Fei",
+  publisher: none,
+)
+
+
+
+// Force next page for main content
+#pagebreak()
+
 // Reset the heading counter
 #counter(heading).update(0)
 
+// Reset the page counter
+#counter(page).update(1)
 
 // Apply Roman numerals for preliminary pages
 // before switching to standard numbering for the main content
@@ -40,8 +59,8 @@ This is a notebook for Stein's Fourier Analysis: An Introduction @steinFourierAn
  * Main Content
  */
 
-#include "content/02-basic-properties-of-fourier-series.typ"
-#include "content/03-convergence-of-fourier-series.typ"
+#include "/chapters/02-basic-properties-of-fourier-series.typ"
+#include "/chapters/03-convergence-of-fourier-series.typ"
 
 
 /*
@@ -62,4 +81,4 @@ This is a notebook for Stein's Fourier Analysis: An Introduction @steinFourierAn
  * Bibliography
  */
 
-#bibliography("fourier-analysis.bib")
+#bibliography("/references.bib")
