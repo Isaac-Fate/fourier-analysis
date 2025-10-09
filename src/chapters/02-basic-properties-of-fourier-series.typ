@@ -992,11 +992,32 @@ The answer is yes.
 
 === Fejér's Theorem
 
+Recall that the $N$-th partial sum of Fourier series is
+$
+  S_N (f) = f * D_N.
+$
+We have seen that, unfortunately, $S_N (f)$ does not converge to $f$ (at points of continuity) in general since $D_N$ is not a good kernel.
+Now, we consider a _weaker_ summability of the Fourier series using the Cesàro sum and pounder the question if the Cesàro sum of the Fourier series converges to $f$.
+
+We have seen that, unfortunately, the partial sums $S_N(f)$ do not generally converge to $f$ (even at points of continuity), because the Dirichlet kernel $D_N$ is not a good kernel.
+
+We now consider a weaker notion of summability for Fourier series---specifically, Cesàro summability---and ask whether the Cesàro means of the Fourier series converge to $f$.
+
+Taking the means of $S_N(f)$, we have
+
+$
+  sigma_N (f) = 1/N sum_(n=0)^(N-1) S_n (f) = f * underbrace(1/N sum_(n=0)^(N-1) D_n, "Regard this as a kernel").
+$
+This introduces a new kernel $1/N sum_(n=0)^(N-1) D_n$ that is derived from $D_n$ by taking the Cesàro mean of the Dirichlet kernels.
+
+This is called the *Fejér kernel* #index[Fejér kernel], and is denoted by
 $
   F_N (x)
   = 1 / N sum_(n=0)^(N-1) D_n (x)
   = 1 / N sum_(n=0)^(N-1) (sin ((n+ 1\/2) x)) / (sin(x \/ 2)).
 $ <eq:21>
+Fortunately, Fejér kernel is indeed a good kernel,
+which means that the Fourier series of $f$ is Cesàro summable to $f$ (at points of continuity).
 
 The closed-form expression for the N-th Fejér kernel is
 $
@@ -1015,7 +1036,7 @@ To do so, we need to use the following trigonometric identities:
   $
     sin theta sin phi = 1/2 [cos (theta - phi) - cos (theta + phi)].
   $
-2. Power-reduction formula:
+1. Power-reduction formula:
   $
     sin^2 theta = 1/2 [1 - cos (2theta)].
   $
@@ -1043,3 +1064,50 @@ This indeed brought back many memories from high school.
 
 Substituting @eq:23 into @eq:21, we obtain @eq:22.
 
+We have mentioned the Fejér kernel is a good kernel, which we will now verify
+
+#proposition[
+  The Fejér kernel
+  $
+    F_N (x) = 1 / N (sin^2 (N x \/ 2)) / (sin^2 (x \/ 2))
+  $
+  is a good kernel.
+]
+
+#proof[
+  Let's verify the three properties of good kernels one by one.
+
+  $F_N (x)$ assigns unit mass on the circle.
+  We don't have to compute the integral directly using the closed-form expression of the Fejér kernel.
+  Since
+  $
+    F_N (x) = 1/N sum_(n=0)^(N-1) D_n (x)
+  $
+  and we know that the Dirichlet kernel $D_n (x)$ assigns unit mass on the circle, we may immedately derive that
+  $
+    1/(2pi) integral_(-pi)^pi F_N (x) dif x & = 1/(2pi) integral_(-pi)^pi 1/N sum_(n=0)^(N-1) D_n (x) dif x \
+                                            & = 1/N sum_(n=0)^(N-1) 1/(2pi) integral_(-pi)^pi D_n (x) dif x \
+                                            & = 1/N sum_(n=0)^(N-1) 1 \
+                                            & = 1
+  $
+
+  Showing the boundedness is also trivial.
+  We observe from the closed form of $F_N (x)$ that itself is actually positive.
+  Therefore,
+  $
+    integral_(-pi)^pi abs(F_N (x)) dif x
+    = integral_(-pi)^pi F_N (x) dif x = 2pi.
+  $
+
+  Finally, we consider the integral $integral_(delta <= abs(x) <= pi) abs(F_N (x)) dif x$.
+  We have the following estimate:
+  $
+    integral_(delta <= abs(x) <= pi) abs(F_N (x)) dif x
+    &= integral_(delta <= abs(x) <= pi) 1 / N (sin^2 (N x \/ 2)) / (sin^2 (x \/ 2)) dif x \
+    &<= 1 / N integral_(delta <= abs(x) <= pi) 1 / (sin^2 (x \/ 2)) dif x \
+    &= 2 / N integral_(delta)^pi 1 / (sin^2 (x \/ 2)) dif x \
+    &<= 2 / N integral_(delta)^pi 1 / (sin^2 (delta \/ 2)) dif x \
+    &= (2(pi - delta)) / (N sin^2 (delta \/ 2)) \
+    & -> 0 "as" N -> oo.
+  $
+]
