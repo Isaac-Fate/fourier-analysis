@@ -151,7 +151,7 @@ converges if the limit of $S_N (f) (x)$ exists (as a finite number) as $N -> oo$
 Fourier serires are part of a larger family called *trigonometric series* #index[trigonometric series], which has the form
 $
   sum_(n=-oo)^oo c_n e^(2pi i n x \/ L), quad "where" c_n in CC.
-$
+$ <eq:25>
 If a trigonometric series only consists of finitely many terms,
 then it is called a *trigonometric polynomial* #index[trigonometric polynomial].
 The *degree* #index[degree of a trigonometric polynomial] of a trigonometric polynomial
@@ -781,7 +781,7 @@ Property 1 states that the average value of $K_n$ over the circle is 1. Property
 
   Moreover, if $f$ is continuous everywhere, then the sequence of functions ${f * K_n}_(n=1)^oo$
   converges uniformly to $f$ on the circle.
-]
+] <thm:2>
 
 #proof[
   Suppose that $abs(f) <= M_1$ on the circle and that
@@ -1003,11 +1003,11 @@ We have seen that, unfortunately, the partial sums $S_N(f)$ do not generally con
 
 We now consider a weaker notion of summability for Fourier series---specifically, Cesàro summability---and ask whether the Cesàro means of the Fourier series converge to $f$.
 
-Taking the means of $S_N(f)$, we have
+Taking the means of $S_N (f)$, we have
 
 $
   sigma_N (f) = 1/N sum_(n=0)^(N-1) S_n (f) = f * underbrace(1/N sum_(n=0)^(N-1) D_n, "Regard this as a kernel").
-$
+$ <eq:24>
 This introduces a new kernel $1/N sum_(n=0)^(N-1) D_n$ that is derived from $D_n$ by taking the Cesàro mean of the Dirichlet kernels.
 
 This is called the *Fejér kernel* #index[Fejér kernel], and is denoted by
@@ -1016,6 +1016,8 @@ $
   = 1 / N sum_(n=0)^(N-1) D_n (x)
   = 1 / N sum_(n=0)^(N-1) (sin ((n+ 1\/2) x)) / (sin(x \/ 2)).
 $ <eq:21>
+
+The LHS of @eq:24, $sigma(f)$, is the Cesàro sum of the Fourier series and the RHS is the convolution of $f$ and the Fejér kernel $F_N$.
 Fortunately, Fejér kernel is indeed a good kernel,
 which means that the Fourier series of $f$ is Cesàro summable to $f$ (at points of continuity).
 
@@ -1036,7 +1038,7 @@ To do so, we need to use the following trigonometric identities:
   $
     sin theta sin phi = 1/2 [cos (theta - phi) - cos (theta + phi)].
   $
-1. Power-reduction formula:
+2. Power-reduction formula:
   $
     sin^2 theta = 1/2 [1 - cos (2theta)].
   $
@@ -1109,5 +1111,54 @@ We have mentioned the Fejér kernel is a good kernel, which we will now verify
     &<= 2 / N integral_(delta)^pi 1 / (sin^2 (delta \/ 2)) dif x \
     &= (2(pi - delta)) / (N sin^2 (delta \/ 2)) \
     & -> 0 "as" N -> oo.
+  $
+]
+
+Now that we have verified that ${F_N}$ is a family of good kernels, applying @thm:2, we immedately obtain the following nice theorem.
+
+#theorem[
+  If $f$ is integrable on the circle, then its Fourier series is Cesàro summable to $f$ at every point of continuity.
+
+  Moreover, if $f$ is continuous on the circle, then its Fourier series is *uniformly Cesàro summable* to $f$.
+] <thm:3>
+
+#note-box[
+  By saying a series of functions $sum_(n=0)^oo g_n (x)$ is *uniformly Cesàro summable* #index[Uniform Cesàro summability] to a fucntion $f(x)$ on a set $S$,
+  we mean that the sequence of Cesàro sums ${sigma_N (x)}_(N=1)^oo$ of $sum_(n=0)^oo g_n (x)$ converges uniformly to $f(x)$ on $S$.
+]
+
+The following corollary is the same as @thm:1.
+We satate it there again to provide the reader with another proof.
+
+#corollary[
+  If $f$ is integrable on the circle and $hat(f)(n) = 0$ for all $n in ZZ$, then $f(theta) = 0$ whenever $f$ is continuous at $theta$.
+]
+
+#proof[
+  The $N$-th partial sum of the Fourier series is
+  $
+    s_N (theta) = sum_(n=-N)^N hat(f) (n) e^(i n theta) = 0.
+  $
+  This implies that every partial sum is zero.
+  The $N$-th Cesàro sum is
+  $
+    sigma_N (theta) = 1 / N sum_(n=0)^(N-1) s_n (theta) = 0.
+  $
+  By @thm:3, we know that $sigma_N (theta) equiv 0$ converges to $f(theta)$ if $f$
+  provided that $f$ is continuous at $theta$, which is exactly the statement of the corollary.
+]
+
+#corollary[
+  Continuous functions on the circle can be uniformly approximated by trigonometric polynomials.
+]
+
+Review @eq:25 for the definitions trigonometric series and polynomials.
+
+#proof[
+  The key is to see that $N$-th Cesàro sum $sigma_N (theta)$ of the Fourier series of $f$ is indeed a trigonometric polynomial.
+  We have
+  $
+    sigma_N (theta) = 1 / N sum_(n=0)^(N-1) s_n (theta)
+    = 1 / N underbrace(sum_(n=0)^(N-1) sum_(k=-n)^n, "Finitely many") underbrace(hat(f) (k) e^(i k theta), "Matches the term defined in trigonometric series")
   $
 ]

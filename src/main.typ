@@ -8,7 +8,7 @@
   title: "Fourier Analysis",
   top-text: "",
   subtitle: "",
-  pic: image("/assets/images/cover.png", width: 100%, height: 40em, fit: "cover"),
+  pic: image("/assets/images/cover.png", width: 100%, height: 30em, fit: "cover"),
   signature: "Isaac Fei",
   publisher: none,
 )
