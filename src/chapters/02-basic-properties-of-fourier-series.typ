@@ -324,7 +324,6 @@ we first show the following lemma.
     #image("/assets/figures/sequence-of-trigonometric-polynomials.png", width: 70%)
   ] <fig:1>
 
-
   Note that $T(theta)$ attains its maximum $epsilon + 1$ at $theta = 0$.
   Since it is continuous, there exists $0 < eta < delta$ such that
   $
@@ -766,8 +765,10 @@ Now, we establish the general case of statement 6.
 Property 1 states that the average value of $K_n$ over the circle is 1. Property 2 ensures that the integral of $abs(K_n)$ is bounded regardless of $n$, so $K_n$ remains controlled as $n$ increases. If $K_n >= 0$ for $n$, the property 2 is a consequence of property 1. Property 3 means that $K_n$ becomes increasingly concentrated at $0$ as $n -> oo$. Visually, as $n$ grows, the graph of $K_n$ becomes sharply peaked near $0$, while the tails diminish.
 @fig:2 illustrates a typical characteristic of a family of good kernels.
 
-#figure(caption: [A family of good kernels.])[
-  #image("/assets/figures/family-of-good-kernels.png", width: 70%)
+#figure(
+  caption: [A family of good kernels. This is actually a plot of Fejér kernels ${F_N (x)}$, which we will introduce later.],
+)[
+  #image("/assets/figures/fejer-kernels.png")
 ] <fig:2>
 
 #theorem[
@@ -875,7 +876,7 @@ The fact that the integral of $|D_N (x)|$ is unbounded while $D_N$ still assigns
 @fig:3 illustrates the behavior of $D_N (x)$ for various values of $N$.
 As you can see, $D_N (x)$ takes on positive and negative values and oscillates rapidly as $N$ increases.
 
-#figure(caption: [Dirichlet kernel $D_N (x)$.])[
+#figure(caption: [Dirichlet kernels ${D_N (x)}$.])[
   #image("/assets/figures/dirichlet-kernels.png")
 ] <fig:3>
 
@@ -1162,3 +1163,4 @@ Review @eq:25 for the definitions trigonometric series and polynomials.
     = 1 / N underbrace(sum_(n=0)^(N-1) sum_(k=-n)^n, "Finitely many") underbrace(hat(f) (k) e^(i k theta), "Matches the term defined in trigonometric series")
   $
 ]
+
