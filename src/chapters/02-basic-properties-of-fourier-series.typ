@@ -1164,3 +1164,69 @@ Review @eq:25 for the definitions trigonometric series and polynomials.
   $
 ]
 
+
+
+=== Abel Means and Summation
+
+Another method of summation is considered by Abel and actually predates Cesàro's method.
+
+#definition[
+  A series $sum_(k=0)^oo c_k$ is said to be *Abel summable* #index[Abel summable] to $s$ if the power series
+  $
+    A(r) = sum_(k=0)^oo c_k r^k
+  $
+  converges for all $0 <= r < 1$ and
+  $
+    lim_(r->1) A(r) = s.
+  $
+]
+
+The quantities $A(r)$ are referred to as the *Abel means* #index[Abel means] of the series $sum_(k=0)^oo c_k$.
+Again, we need to check that this new way of summation is compatible with the usual definition of sum.
+
+#proposition[
+  If the series $sum_(k=0)^oo c_k$ converges to $s$,
+  then it is Abel summable to $s$ as well.
+]
+
+Moreover, Abel summability is actually more powerful than Cesàro summability in that a series is Abel summable to $s$ if it is Cesàro summable to $s$.
+But the converse is not true.
+
+#example[
+  Consider the series
+  $
+    sum_(k=0)^oo c_k = sum_(k=0)^oo (-1)^k (k+1) = 1 - 2 + 3 - 4 + dots.c.
+  $
+  We have
+  $
+    A(r) = sum_(k=0)^oo (-1)^k (k+1) r^k.
+  $
+  Let $s_n$ be the $n$-th partial sum of the series $A(r)$. We wish to find a closed-form expression for $s_n$.
+  #note-box[
+    In fact, before studying the partial sums, we may already conclude that the series $A(r)$ converges (absolutely) for $0 <= r < 1$ by applying the ratio test or the root test.
+  ]
+  We have
+  $
+      s_n & = 1 - 2r + 3r^2 - 4r^3 + dots.c + (-1)^n (n+1) r^n \
+    r s_n & = r - 2r^2 + 3r^3 - 4r^4 + dots.c + (-1)^(n-1) n r^n + (-1)^n (n+1) r^(n+1) .
+  $
+  Adding the two equations yields
+  $
+    (1+r) s_n &= underbrace(1 - r + r^2 - r^3 + dots.c + (-1)^n r^n, "Geometric sequence with common ratio " -r) + (-1)^n (n+1) r^(n+1) \
+    &= (1 - (-r)^(n+1)) / (1+r) + (-1)^n (n+1) r^(n+1).
+  $
+  We have
+  $
+    s_n = (1 - (-r)^(n+1)) / (1+r)^2 +underbrace(((-1)^n (n+1) r^(n+1)) / (1+r), "Tends to" 0 "as" n -> oo).
+  $
+  Letting $n -> oo$, we see that ${s_n}$ converges to $1/(1+r)^2$.
+  And $lim_(r -> 1) A(r) = 1/4$.
+  Therefore, $sum_(k=0)^oo c_k$ is Abel summable to $1/4$.
+  However $sum_(k=0)^oo c_k$ is not Cesàro summable.
+]
+
+
+
+=== The Poisson Kernel and Dirichlet's Problem in the Unit Disk
+
+
