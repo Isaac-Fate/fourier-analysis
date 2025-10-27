@@ -1222,9 +1222,45 @@ But the converse is not true.
   Letting $n -> oo$, we see that ${s_n}$ converges to $1/(1+r)^2$.
   And $lim_(r -> 1) A(r) = 1/4$.
   Therefore, $sum_(k=0)^oo c_k$ is Abel summable to $1/4$.
-  However $sum_(k=0)^oo c_k$ is not Cesàro summable.
+  However, $sum_(k=0)^oo c_k$ is not Cesàro summable.
 ]
 
+#lemma[
+  If the series $sum_(k=0)^oo c_k$ is Cesàro summable to $0$,
+  then it is Abel summable to $0$ as well.
+] <lem:3>
+
+#proposition[
+  If the series $sum_(k=0)^oo c_k$ is Cesàro summable to $sigma$,
+  then it is Abel summable to $sigma$ as well.
+]
+
+#proof[
+  Construct a new series $sum_(k=0)^oo c'_k$, where $c'_0 = c_0 - sigma$ and $c'_k = c_k$ for $k >= 1$.
+  We have $s'_n = s_n - sigma$
+  where $s'_n$ and $s_n$ are the $n$-th partial sums of $sum_(k=0)^oo c'_k$ and $sum_(k=0)^oo c_k$, respectively.
+  It then follows that
+  $
+    sigma'_n = (s'_0 + dots.c + s'_(n-1)) / n & = ((s_0 + dots.c + s_(n-1)) - n sigma) / n \
+                                              & = (s_0 + dots.c + s_(n-1)) / n - sigma \
+                                              & = sigma_n - sigma.
+  $
+  Since $sigma_n -> sigma$ as $n -> oo$, we have $sigma'_n -> 0$ as $n -> oo$,
+  which implies that $sum_(k=0)^oo c'_k$ is Cesàro summable to $0$.
+
+  We now look at the Abel means $A'(r)$ of $sum_(k=0)^oo c'_k$.
+  By @lem:3, we know that $A'(r)$ converges and that $lim_(r->1) A'(r) = 0$.
+  We have
+  $
+    A'(r) & = sum_(k=0)^oo c'_k r^k \
+          & = c'_0 + underbrace(sum_(k=1)^oo c'_k r^k, "This series converges") \
+          & = (c_0 - sigma) + sum_(k=1)^oo c_k r^k \
+          & = underbrace(c_0 + sum_(k=1)^oo c_k r^k, "Implicitly implies that this series converges") - sigma \
+          & = A(r) - sigma.
+  $
+  Therefore, the series $A(r)$ converges and $lim_(r->1) A(r) = lim_(r->1) (A'(r) + sigma) = sigma$.
+  This concludes the proof.
+]
 
 
 === The Poisson Kernel and Dirichlet's Problem in the Unit Disk

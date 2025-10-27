@@ -54,7 +54,6 @@ This is a notebook for Stein's Fourier Analysis: An Introduction @steinFourierAn
 #set heading(numbering: "1.1")
 
 
-
 /*
  * Main Content
  */
