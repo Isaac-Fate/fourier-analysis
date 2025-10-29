@@ -1189,7 +1189,7 @@ Again, we need to check that this new way of summation is compatible with the us
   then it is Abel summable to $s$ as well.
 ]
 
-Moreover, Abel summability is actually more powerful than Cesàro summability in that a series is Abel summable to $s$ if it is Cesàro summable to $s$.
+Moreover, Abel summability is actually more powerful than Cesàro summability in that a series is Abel summable to $s$ if it is Cesàro summable to $s$. (We will prove this in @prop:1.)
 But the converse is not true.
 
 #example[
@@ -1226,14 +1226,165 @@ But the converse is not true.
 ]
 
 #lemma[
-  If the series $sum_(k=0)^oo c_k$ is Cesàro summable to $0$,
+  Let $sum_(n=1)^oo c_n$ be a complex series and
+  let ${s_n}$ be its sequence of partial sums.
+  We have the following identity:
+  $
+    sum_(n=1)^N c_n r^n
+    = (1-r) sum_(n=1)^N s_n r^n + s_N r^(N+1).
+  $ <eq:26>
+]
+
+#proof[
+  The key is to apply summation by parts.
+  We have
+  $
+    sum_(n=1)^N c_n r^n & = sum_(n=1)^N (s_n - s_(n-1)) r^n \
+                        & = r sum_(n=1)^N (s_n - s_(n-1)) r^(n-1) \
+                        & "Apply summation by parts" \
+                        & = r [(s_N r^N - s_0 r^0) - sum_(n=1)^N s_n (r^n - r^(n-1))] quad "We define" s_0 = 0 \
+                        & = s_N r^(N+1) - sum_(n=1)^N s_n r^n (r - 1) \
+                        & = s_N r^(N+1) + (1-r) sum_(n=1)^N s_n r^n.
+  $
+]
+
+
+#lemma[
+  Let $sum_(n=1)^oo c_n$ be a complex series.
+  Let ${s_n}$ be the sequence of its partial sums and ${sigma_n}$ be the Cesàro sums.
+  We have
+  $
+    sum_(n=1)^N c_n r^n
+    = (1-r)^2 sum_(n=1)^N n sigma_n r^n + (1-r) N sigma_N r^(N+1) + s_N r^(N+1).
+  $ <eq:27>
+  Moreover, if $sum_(n=1)^n c_n$ is Cesàro summable to $sigma$
+  and $0 < r < 1$,
+  then the series $sum_(n=1)^oo c_n$ converges and
+  $
+    sum_(n=1)^oo c_n r^n
+    = (1-r)^2 sum_(n=1)^oo n sigma_n r^n.
+  $
+] <lem:4>
+
+#proof[
+  Note that
+  $
+    s_n = n sigma_n - (n-1) sigma_(n-1).
+  $
+  #note-box[
+    $c_n$ and $s_n$ satisfy the relation
+    $
+      c_n = s_n - s_(n-1).
+    $
+    And now we note that $s_n$ and $n sigma_n$ (regarded as a whole) satisfy exactly the same relation
+    $
+      s_n = n sigma_n - (n-1) sigma_(n-1).
+    $
+  ]
+  By substituting
+  $
+    c_n <- s_n "and" s_n <- n sigma_n
+  $
+  in @eq:26, we can immedately obtain that
+  $
+    sum_(n=1)^N s_n r^n
+    = (1-r) sum_(n=1)^N n sigma_n r^n + N sigma_N r^(N+1).
+  $ <eq:28>
+  Substituting @eq:28 into @eq:26 yields @eq:27.
+
+  Now, suppose that $sum_(n=1)^oo c_n$ is Cesàro summable to $sigma$ and $0 < r < 1$.
+  By definition, $sigma_n -> sigma$ as $n -> oo$.
+  First, we show that the series $sum_(n=1)^oo n sigma_n r^n$ converges by applying the root test.
+  We have
+  $
+    root(n, abs(n sigma_n r^n))
+    = root(n, n) dot root(n, abs(sigma_n)) dot r
+  $ <eq:29>
+  If $sigma = 0$, then the limit of the RHS in @eq:29 is $0$.
+  Otherwise, the limit is $r < 1$.
+  In either case, we may conclude that
+  $
+    limsup_(n->oo) root(n, abs(n sigma_n r^n)) < 1,
+  $
+  which implies that the series $sum_(n=1)^oo n sigma_n r^n$ converges.
+
+  Finally, we need to show that the term
+  $
+    (1-r) N sigma_N r^(N+1) + s_N r^(N+1)
+  $
+  vanishes as $N->oo$.
+  It is clear that
+  $
+    lim_(N->oo) (1-r) N sigma_N r^(N+1) = 0.
+  $
+  since $sigma_N -> sigma$ and $N r^(N+1) -> 0$ as $N ->oo$.
+  For the term $s_N r^(N+1)$, we can write it as
+  $
+    s_N r^(N+1) & = N sigma_N r^(N+1) - (N-1) sigma_(N-1) r^(N+1) \
+                & = N (sigma_N - sigma_(N-1)) r^(N+1) + sigma_(N-1) r^(N+1).
+  $
+  We have
+  $
+    abs(s_N r^(N+1)) & <= N abs(sigma_N - sigma_(N-1)) r^(N+1) + abs(sigma_(N-1)) r^(N+1) \
+    & <= underbrace((abs(sigma_N) + abs(sigma_(N-1))) N r^(N+1), -> 0) + underbrace(abs(sigma_(N-1)) r^(N+1), ->0).
+  $
+  This concludes the proof.
+]
+
+#lemma[
+  If the series $sum_(n=1)^oo c_n$ is Cesàro summable to $0$,
   then it is Abel summable to $0$ as well.
 ] <lem:3>
+
+#proof[
+  By @lem:4, we have that the Amel means $A(r) = sum_(n=1)^oo c_n r^n$---regarded as a series---conveges and
+  $
+    A(r) = sum_(n=1)^oo c_n r^n
+    = (1-r)^2 sum_(n=1)^oo n sigma_n r^n.
+  $
+
+  Pick $epsilon > 0$.
+  There exists $N in NN^*$ ($N > 1$) such that
+  $
+    abs(sigma_n) < epsilon quad forall n >= N.
+  $
+  We have
+  $
+    abs((1-r)^2 sum_(n=1)^oo n sigma_n r^n) & <= (1-r)^2 sum_(n=1)^oo n abs(sigma_n) r^n \
+    & < (1-r)^2 underbrace(sum_(n=1)^(N-1) n abs(sigma_n) r^n, "Denoted as" M) + (1-r)^2 sum_(n=1)^oo n epsilon r^n \
+    & = (1-r)^2 M + epsilon underbrace((1-r)^2 sum_(n=1)^oo n r^n, "Let's study this term").
+  $ <eq:30>
+  #note-box[
+    Let $S_n = sum_(k=1)^n k r^k$.
+    We have a closed form expression for $S_n$:
+    $
+      S_n = (r (1 - r^n)) / (1-r)^2 - (n r^(n+1)) / (1-r).
+    $
+    One may derive this by considering $S_n - r S_n$.
+  ]
+  Note that the series $sum_(n=1)^oo n r^n$ converges and
+  $
+    sum_(n=1)^oo n r^n = r / (1-r)^2.
+  $
+  Plugging this back to @eq:30, we obtain
+  $
+    abs((1-r)^2 sum_(n=1)^oo n sigma_n r^n) & < (1-r)^2 M + epsilon r.
+  $
+  Taking the limit superior on both sides as $r -> 1$ yields
+  $
+    limsup_(r->1) abs((1-r)^2 sum_(n=1)^oo n sigma_n r^n) <= epsilon.
+  $ <eq:31>
+  Since @eq:31 holds every $epsilon > 0$, we conclude that
+  $
+    lim_(r->1) (1-r)^2 sum_(n=1)^oo n sigma_n r^n = 0.
+  $
+  Therefore, $A(r) = 0$ as $r -> 1$, which implies that $sum_(n=1)^oo c_k$ is Abel summable to $0$.
+]
 
 #proposition[
   If the series $sum_(k=0)^oo c_k$ is Cesàro summable to $sigma$,
   then it is Abel summable to $sigma$ as well.
-]
+] <prop:1>
 
 #proof[
   Construct a new series $sum_(k=0)^oo c'_k$, where $c'_0 = c_0 - sigma$ and $c'_k = c_k$ for $k >= 1$.

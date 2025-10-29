@@ -76,3 +76,34 @@ begin
 
     savefig(joinpath(figures_dir, "dirichlet-kernels.png"))
 end
+
+
+begin
+    r = 0.1
+    N = 100
+    L = 1000
+    cs = randn(ComplexF64, L)
+
+    # Create partial sums
+    ss = zeros(ComplexF64, L)
+    ss[1] = cs[1]
+    for n in 2:L
+        ss[n] = cs[n] + ss[n-1]
+    end
+
+    # Cesàro sums
+    sigmas = zeros(ComplexF64, L)
+    for n in 1:L
+        sigmas[n] = sum(ss[1:n]) / n
+    end
+
+    # Exponents of r
+    r_pows = r .^ (1:L)
+
+    lhs = sum(cs[1:N] .* r_pows[1:N])
+    rhs1 = (1 - r) * sum(ss[1:N] .* r_pows[1:N]) + ss[N] * r_pows[N+1]
+    rhs2 = (1 - r)^2 * sum((1:N) .* sigmas[1:N] .* r_pows[1:N]) + (1 - r) * N * sigmas[N] * r_pows[N+1] + ss[N] * r_pows[N+1]
+
+    @assert isapprox(lhs, rhs1)
+    @assert isapprox(lhs, rhs2)
+end
