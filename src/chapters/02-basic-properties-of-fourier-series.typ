@@ -1225,6 +1225,9 @@ But the converse is not true.
   However, $sum_(k=0)^oo c_k$ is not Cesàro summable.
 ]
 
+In the following content, we will prove that Cesàro summability implies Abel summability.
+
+
 #lemma[
   Let $sum_(n=1)^oo c_n$ be a complex series and
   let ${s_n}$ be its sequence of partial sums.
@@ -1331,6 +1334,12 @@ But the converse is not true.
   This concludes the proof.
 ]
 
+
+Now, let's consider a special case where the Cesàro sum is zero.
+The extension to the general case will then be straightforward to obtain with only a few steps.
+We will consider the series $sum_(n=1)^oo c_n$ where the index starts from $1$ instead of $0$ for ease of notation. This does not affect the generality of the argument.
+
+
 #lemma[
   If the series $sum_(n=1)^oo c_n$ is Cesàro summable to $0$,
   then it is Abel summable to $0$ as well.
@@ -1382,7 +1391,7 @@ But the converse is not true.
 ]
 
 #proposition[
-  If the series $sum_(k=0)^oo c_k$ is Cesàro summable to $sigma$,
+  If the series $sum_(n=1)^oo c_n$ is Cesàro summable to $sigma$,
   then it is Abel summable to $sigma$ as well.
 ] <prop:1>
 
@@ -1413,7 +1422,98 @@ But the converse is not true.
   This concludes the proof.
 ]
 
+In summary, we have shown that for a complex series $sum c_n$, we have the following implications:
+
+#figure()[
+  #diagram(
+    let (a, b, c) = ((-1, 0), (0, 0), (1, 0)),
+    node(a, "Convergent"),
+    node(b, "Cesàro summable"),
+    node(c, "Abel summable"),
+
+    edge(a, b, "=>"),
+    edge(b, c, "=>"),
+  )
+]
+
+Moreover, the definition of _sums_ are consistent.
+That is, if $sum c_n$ converges to sum $s$, it is also Cesàro summable to $s$.
+And if it is Cesàro summable to $sigma$, then it is also Abel summable to $sigma$.
+
 
 === The Poisson Kernel and Dirichlet's Problem in the Unit Disk
 
+To adapt the Abel summability to the context of Fourier series,
+we define the Abel means of
+the function $f(theta) ~ sum_(n=-oo)^oo hat(f)(n) e^(i n theta)$ by
+$
+  A_r (f) (theta) = sum_(n=-oo)^oo r^(abs(n)) hat(f)(n) e^(i n theta).
+$ <eq:32>
+The RHS of @eq:32 is exactly the Abel means of the Fourier series of $f$.
+To see this, we write
+$
+  c_0 & = hat(f) (0) \
+  c_n & = hat(f) (n) e^(i n theta) + hat(f) (-n) e^(-i n theta), quad n >= 1.
+$
+The Fourier series of $f$ is exactly $sum_(n=0)^oo c_n$.
+Then it is clear that the Abel means of $sum_(n=0)^oo c_n$
+is exactly $A_r (f) (theta)$ in @eq:32.
 
+By applying the Weierstrass's M-test, @thm:4, we may conclude that
+$A_r (f) (theta)$, regarded as a series of functions in $theta$,
+converges absolutely and uniformly on $[-pi, pi]$.
+
+#note-box[
+  Since $f$ is integrable on the circle, it is necessarily bounded.
+  Suppose that $abs(f(theta)) <= M$.
+  We have
+  $
+    abs(hat(f) (n))
+    = 1/(2pi) abs(integral_(-pi)^pi f(theta) e^(-i n theta) dif theta)
+    <= 1/(2pi) integral_(-pi)^pi abs(f(theta)) dif theta
+    <= 1/(2pi) integral_(-pi)^pi M dif theta = M.
+  $
+  Therefore, each function $g_n (theta) = r^(abs(n)) hat(f) (n) e^(i n theta)$ has the following bound:
+  $
+    abs(g_n (theta)) = r^(abs(n)) abs(hat(f) (n)) <= M r^(abs(n)) = M_n.
+  $
+  It is clear that the series $sum_(n=-oo)^oo M_n$ converges.
+  Therefore, by the Weierstrass's M-test,
+  the series of function $sum_(n=-oo)^oo g_n (theta)$ converges absolutely and uniformly on $[-pi, pi]$.
+]
+
+#theorem(title: "Weierstrass's M-test")[
+  Let $sum f_n (x)$ be a series of functions defined on $S subset.eq CC$.
+  And let ${M_n}$ be a sequence of non-negative numbers such that
+  $
+    abs(f_n (x)) <= M_n quad forall x in S, forall n in NN^ast.
+  $
+  Then $sum f_n (x)$ converges absolutely and uniformly on $S$ if $sum M_n$ converges.
+] <thm:4>
+
+Just like Cesàro sums, we may express $A_r (f)$ as a convolution:
+$
+  A_r (f) = f * P_r
+$
+where $P_r$ is called the *Poisson kernel* #index[Poisson kernel] given by
+$
+  P_r (theta) = sum_(n=-oo)^oo r^(abs(n)) e^(i n theta).
+$
+
+In fact, we have
+$
+  A_r (f) (theta) & = sum_(n=-oo)^oo r^(abs(n)) hat(f)(n) e^(i n theta) \
+  & =sum_(n=-oo)^oo r^(abs(n)) [1/(2pi) integral_(-pi)^pi f(x) e^(-i n x) dif x ]e^(i n theta) \
+  & = 1/(2pi) sum_(n=-oo)^oo integral_(-pi)^pi underbrace(r^(abs(n)) f(x) e^(i n (theta - x)), "Absolute value" <= M r^(abs(n)) "where" M "is such that" abs(f) <= M) dif x
+$
+
+The Weierstrass's M-test implies that
+the series of integrand functions, $sum_(n=-oo)^oo r^(abs(n)) f(x) e^(i n (theta - x))$, converges uniformly on $[-pi, pi]$.
+Thus, we may interchange the summation and the integration to obtain
+
+$
+  A_r (f) (theta) & = 1/(2pi) integral_(-pi)^pi sum_(n=-oo)^oo r^(abs(n)) f(x) e^(i n (theta - x)) dif x \
+  & = 1/(2pi) integral_(-pi)^pi f(x) sum_(n=-oo)^oo underbrace(r^(abs(n)) e^(i n (theta - x)), "Compare to the Poisson kernel's formula") dif x \
+  & = 1/(2pi) integral_(-pi)^pi f(x) P_r (theta - x) dif x \
+  & = (f * P_r) (theta).
+$
