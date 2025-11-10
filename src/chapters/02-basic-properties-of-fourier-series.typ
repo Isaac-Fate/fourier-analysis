@@ -180,6 +180,46 @@ is the largest value of $abs(n)$ for which $c_n != 0$.
   ]
 ]
 
+Weierstrass's M-test is a very helful test to examine whether a series is uniformly convergent.
+
+#theorem(title: "Weierstrass's M-test")[
+  Let $sum f_n (x)$ be a series of functions defined on $S subset.eq CC$.
+  And let ${M_n}$ be a sequence of non-negative numbers such that
+  $
+    abs(f_n (x)) <= M_n quad forall x in S, forall n in NN^ast.
+  $
+  Then $sum f_n (x)$ converges absolutely and uniformly on $S$ if $sum M_n$ converges.
+] <thm:4>
+
+#example[
+  The function $P_r (theta)$, called the *Poisson kernel* #index[Poisson kernel],
+  is defined by
+  $
+    P_r (theta) = sum_(n=-oo)^oo r^(abs(n)) e^(i n theta), quad theta in [-pi, pi]
+  $ <eq:33>
+  where $r$ satisfies $0 <= r < 1$.
+  Note that the series in @eq:33 converges absolutely and uniformly on $[-pi, pi]$.
+  One can verify this using Weierstrass's M-test (@thm:4).
+
+  The closed form of $P_r (theta)$ is
+  $
+    P_r (theta) = (1 - r^2) / (1 - 2 r cos(theta) + r^2).
+  $
+  In fact, letting $omega = r e^(i n theta)$, we can write
+  $
+    P_r (theta)
+    = sum_(n=-oo)^oo r^(abs(n)) e^(i n theta)
+    = sum_(n=0)^oo omega^n + sum_(n=1)^oo overline(omega)^n.
+  $
+  The RHS is just the sum of two geometirc series. We have
+  $
+    P_r (theta)
+    = 1 / (1 - omega) + overline(omega) / (1 - overline(omega))
+    = (1 - abs(omega)^2) / ((1 - omega)(1 - overline(omega)))
+    = (1 - r^2) / (1 - 2 r cos(theta) + r^2).
+  $
+] <eg:1>
+
 == Uniqueness of Fourier Series
 
 If we assume that the Fourier series of a function $f$ converges to $f$ under certain conditions, a natural question arises: is $f$ uniquely determined by its Fourier coefficients? In other words, if $hat(f) (n) = hat(g) (n)$ for all $n in ZZ$, does it follow that $f = g$ (under appropriate conditions)?
@@ -759,8 +799,8 @@ Now, we establish the general case of statement 6.
   A family of functions ${K_n}_(n=1)^oo$ on the circle is said to be a family of *good kernels* #index[good kernels] if it satisfies the folloing properties:
   + For all $n>= 1$, $ 1 / (2pi) integral_(-pi)^pi K_n (x) dif x = 1. $
   + There exists $M > 0$ such that for all $n>= 1$, we have $ integral_(-pi)^pi abs(K_n (x)) dif x <= M. $
-  + For every $delta > 0$, $ integral_(delta<=abs(x)<=pi) abs(K_n (x)) dif x -> 0 quad "as" n -> oo. $
-]
+  + For every $delta > 0$, $integral_(delta<=abs(x)<=pi) abs(K_n (x)) dif x -> 0 quad "as" n -> oo$.
+] <def:1>
 
 Property 1 states that the average value of $K_n$ over the circle is 1. Property 2 ensures that the integral of $abs(K_n)$ is bounded regardless of $n$, so $K_n$ remains controlled as $n$ increases. If $K_n >= 0$ for $n$, the property 2 is a consequence of property 1. Property 3 means that $K_n$ becomes increasingly concentrated at $0$ as $n -> oo$. Visually, as $n$ grows, the graph of $K_n$ becomes sharply peaked near $0$, while the tails diminish.
 @fig:2 illustrates a typical characteristic of a family of good kernels.
@@ -1482,23 +1522,16 @@ converges absolutely and uniformly on $[-pi, pi]$.
   the series of function $sum_(n=-oo)^oo g_n (theta)$ converges absolutely and uniformly on $[-pi, pi]$.
 ]
 
-#theorem(title: "Weierstrass's M-test")[
-  Let $sum f_n (x)$ be a series of functions defined on $S subset.eq CC$.
-  And let ${M_n}$ be a sequence of non-negative numbers such that
-  $
-    abs(f_n (x)) <= M_n quad forall x in S, forall n in NN^ast.
-  $
-  Then $sum f_n (x)$ converges absolutely and uniformly on $S$ if $sum M_n$ converges.
-] <thm:4>
 
 Just like Cesàro sums, we may express $A_r (f)$ as a convolution:
 $
   A_r (f) = f * P_r
 $
-where $P_r$ is called the *Poisson kernel* #index[Poisson kernel] given by
+where $P_r$ is the Poisson kernel given by
 $
-  P_r (theta) = sum_(n=-oo)^oo r^(abs(n)) e^(i n theta).
+  P_r (theta) = sum_(n=-oo)^oo r^(abs(n)) e^(i n theta),
 $
+which we have already seen in @eg:1.
 
 In fact, we have
 $
@@ -1517,3 +1550,23 @@ $
   & = 1/(2pi) integral_(-pi)^pi f(x) P_r (theta - x) dif x \
   & = (f * P_r) (theta).
 $
+
+#lemma[
+  If $0 <= r < 1$, then
+  $
+    P_r (theta)
+    = (1-r^2) / (1 - 2 r cos theta + r^2).
+  $
+  Moreover, Poisson kernel is a good kernel, as $r -> 1$ from below.
+]
+
+#note-box[
+  Recall that we defined a family of kernels as a sequence of functions.
+  The kernels ${K_n}$ are indexed by an integer.
+
+  Here we extend this notion to a family of functions indexed
+  by a continuous parameter $r$, ${P_r}_(0 <= r <1)$.
+  And in the definition of good kernels (@def:1), we simply replace $n$ with $r$ in the last property.
+  For example, in the case of Poisson kernels, the last property of being a family of good kernels becomes:
+  - For every $delta > 0$, $integral_(delta<=abs(x)<=pi) abs(P_r (theta)) dif theta -> 0$ as $r -> 1$.
+]
