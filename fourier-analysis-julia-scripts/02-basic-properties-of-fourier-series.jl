@@ -107,3 +107,27 @@ begin
     @assert isapprox(lhs, rhs1)
     @assert isapprox(lhs, rhs2)
 end
+
+#=
+Poisson kernals
+=#
+begin
+    function poisson(theta::Real; r::Real)
+        return (1 - r^2) / (1 - 2r * cos(theta) + r^2)
+    end
+
+    plot(
+        xticks=(-π:π/2:π, [L"-\pi", L"-\frac{\pi}{2}", "0", L"\frac{\pi}{2}", L"\pi"]),
+    )
+    xs = range(-π, π; length=1000)
+    for r in 0.1:0.2:0.9
+        poisson_partial = x -> poisson(x; r=r)
+        plot!(xs, poisson_partial.(xs), label=latexstring("r=$(r)"))
+    end
+
+    xlabel!(L"\theta")
+
+    display(current())
+
+    savefig(joinpath(figures_dir, "poisson-kernels.png"))
+end

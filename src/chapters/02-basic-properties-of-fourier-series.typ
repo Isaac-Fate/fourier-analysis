@@ -799,7 +799,7 @@ Now, we establish the general case of statement 6.
   A family of functions ${K_n}_(n=1)^oo$ on the circle is said to be a family of *good kernels* #index[good kernels] if it satisfies the folloing properties:
   + For all $n>= 1$, $ 1 / (2pi) integral_(-pi)^pi K_n (x) dif x = 1. $
   + There exists $M > 0$ such that for all $n>= 1$, we have $ integral_(-pi)^pi abs(K_n (x)) dif x <= M. $
-  + For every $delta > 0$, $integral_(delta<=abs(x)<=pi) abs(K_n (x)) dif x -> 0 quad "as" n -> oo$.
+  + For every $delta > 0$, $integral_(delta<=abs(x)<=pi) abs(K_n (x)) dif x -> 0$ as $n -> oo$.
 ] <def:1>
 
 Property 1 states that the average value of $K_n$ over the circle is 1. Property 2 ensures that the integral of $abs(K_n)$ is bounded regardless of $n$, so $K_n$ remains controlled as $n$ increases. If $K_n >= 0$ for $n$, the property 2 is a consequence of property 1. Property 3 means that $K_n$ becomes increasingly concentrated at $0$ as $n -> oo$. Visually, as $n$ grows, the graph of $K_n$ becomes sharply peaked near $0$, while the tails diminish.
@@ -1556,9 +1556,15 @@ $
   $
     P_r (theta)
     = (1-r^2) / (1 - 2 r cos theta + r^2).
-  $
+  $ <eq:37>
   Moreover, Poisson kernel is a good kernel, as $r -> 1$ from below.
 ]
+
+See @fig:4 for a plot of Poisson kernels.
+
+#figure(caption: [Poisson kernels ${P_r (theta)}$.])[
+  #image("/assets/figures/poisson-kernels.png", width: 70%)
+] <fig:4>
 
 #note-box[
   Recall that we defined a family of kernels as a sequence of functions.
@@ -1568,5 +1574,84 @@ $
   by a continuous parameter $r$, ${P_r}_(0 <= r <1)$.
   And in the definition of good kernels (@def:1), we simply replace $n$ with $r$ in the last property.
   For example, in the case of Poisson kernels, the last property of being a family of good kernels becomes:
-  - For every $delta > 0$, $integral_(delta<=abs(x)<=pi) abs(P_r (theta)) dif theta -> 0$ as $r -> 1$.
+  - For every $delta > 0$, $integral_(delta<=abs(theta)<=pi) abs(P_r (theta)) dif theta -> 0$ as $r -> 1$.
+]
+
+
+
+#proof[
+
+  The derivation of @eq:37 is already shown in @eg:1.
+  In the following proof, we will show that $P_r$ is a good kernel.
+
+  We first verify property 1 by computing the integral of $P_r (theta)$.
+  By definition, we have
+  $
+    P_r (theta) = sum_(n=-oo)^oo r^(abs(n)) e^(i n theta).
+  $
+  Recall that we have noted that the series is uniformly convergent.
+  Therefore, we may interchange the summation and the integration to obtain
+  $
+    integral_(-pi)^pi P_r (theta) dif theta & = integral_(-pi)^pi sum_(n=-oo)^oo r^(abs(n)) e^(i n theta) dif theta \
+                                            & = sum_(n=-oo)^oo integral_(-pi)^pi r^(abs(n)) e^(i n theta) dif theta.
+  $ <eq:34>
+  When $n = 0$, we simply have
+  $
+    integral_(-pi)^pi r^(abs(n)) e^(i n theta) dif theta
+    = integral_(-pi)^pi 1 dot 1 dif theta
+    = 2 pi.
+  $ <eq:35>
+  And when $n != 0$, we have
+  $
+    integral_(-pi)^pi r^(abs(n)) e^(i n theta) dif theta
+    = lr(r^(abs(n)) 1 / (i n) e^(i n theta) |)_(-pi)^pi
+    = 0.
+  $ <eq:36>
+  Combining @eq:34, @eq:35 and @eq:36, we conclude that
+  $
+    integral_(-pi)^pi P_r (theta) dif theta & = 2 pi,
+  $
+  which is exactly what we wanted to show.
+
+  We now verify property 2.
+  This is very straightforward. Choose $M = 2pi (1 + r) / (1 - r)$.
+  We have the following estimate:
+  $
+    abs(P_r (theta))
+    = abs(sum_(n=-oo)^oo r^(abs(n)) e^(i n theta))
+    <= sum_(n=-oo)^oo r^(abs(n)) = (1 + r) / (1 - r).
+  $
+  Therefore,
+  $
+    integral_(-pi)^pi abs(P_r (theta)) dif theta <= integral_(-pi)^pi (1 + r) / (1 - r) dif theta
+    = 2pi (1 + r) / (1 - r) = M.
+  $
+
+  Finally, we also need to verify property 3.
+  Since the Poisson kernel is symmetric, we only need to consider half of the integral:
+  $
+    integral_delta^pi abs(P_r (theta)) dif theta
+    = integral_delta^pi abs(underbrace((1-r^2) / (1 - 2 r cos theta + r^2), > 0)) dif theta
+    = integral_delta^pi (1-r^2) / (1 - 2 r cos theta + r^2) dif theta.
+  $
+  We will discuess the cases where $delta <= pi/2$ and $delta >= pi/2$ separately.
+
+  Suppose $delta <= pi/2$. We have $cos theta >= 0$ and hence $1 - 2 r cos theta + r^2 < 1 + r^2$.
+  It then follows that
+  $
+    integral_delta^pi abs(P_r (theta)) dif theta <= integral_delta^pi (1-r^2) / (1 + r^2) dif theta
+    = (1-r^2) / (1 + r^2) dot (pi - delta)
+  $
+  Since the RHS tends to $0$ as $r -> 1$, so does the LHS.
+
+  We now assume $delta > pi/2$. In this case, $cos theta < 0$.
+  We have $1 - 2 r cos theta + r^2 <= 1 + 2r + r^2 = (1 + r)^2$.
+  It then follows that
+  $
+    integral_delta^pi abs(P_r (theta)) dif theta <= integral_delta^pi (1-r^2) / (1 + r)^2 dif theta
+    = (1-r^2) / (1 + r)^2 dot (pi - delta)
+  $
+  Similarly, we note that RHS tends to $0$ as $r -> 1$.
+
+  This concludes the proof.
 ]
